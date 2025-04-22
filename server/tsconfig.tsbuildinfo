@@ -1,1 +1,1 @@
-{"root":["./src/server.ts","./src/handlers/sockethandler.ts","./src/types/message.ts"],"version":"5.8.3"}
+{"root":["./src/server.ts","./src/handlers/roomhandler.ts","./src/handlers/sockethandler.ts","./src/types/message.ts","./src/utils/util.ts"],"version":"5.8.3"}

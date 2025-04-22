@@ -1,6 +1,8 @@
 /* socketHandler.ts */
 import { WebSocket } from 'ws';
 import { IncomingMessage } from '../types/message';
+import { sendError } from '../utils/util';
+import { broadcastToRoom, joinRoom, removeSocket } from './roomHandler';
 
 export function handleConnection(socket: WebSocket) {
   console.log('User connected');
@@ -8,17 +10,28 @@ export function handleConnection(socket: WebSocket) {
   socket.on('message', (message) => {
     const messageObject = parseClientMessage(message.toString(), socket);
     console.log('Received:', messageObject);
+
+    if (messageObject.type === 'join') {
+      const roomId = messageObject.payload.roomId!;
+      joinRoom(socket, roomId);
+      console.log(`Socket joined room ${roomId}`);
+    }
+
+    if (messageObject.type === 'chat') {
+      const msg = messageObject.payload.message!;
+      broadcastToRoom(socket, msg);
+    }
   });
 
+  socket.on('close', () => {
+    console.log('User disconnected');
+    removeSocket(socket);
+  });
   socket.on('error', (err) => {
     console.error('WebSocket error:', err);
   });
 
   socket.send('Hello from the websocket server');
-}
-
-function sendError(socket: WebSocket, error: string) {
-  socket.send(JSON.stringify({ error }));
 }
 
 function isValidMessage(msg: any): boolean {
