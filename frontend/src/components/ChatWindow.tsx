@@ -1,8 +1,12 @@
+import { useAppSelector } from '../app/hooks';
+
 const ChatWindow = () => {
+  const currentRoom = useAppSelector((state) => state.chat.currentRoom);
+
   return (
     <div className="h-[80%]">
       <h2 className="p-4 font-[400] text-4xl border-b border-gray-200">
-        General
+        {currentRoom}
       </h2>
       <div>
         <div className="chat chat-start">
