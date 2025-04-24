@@ -1,14 +1,23 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { currentRoomType } from '../../types';
+import { currentRoomType, Message, MessagePayload } from '../../types';
 
 interface ChatRoomState {
   currentRoom: currentRoomType;
   rooms: currentRoomType[];
+  messages: {
+    [K in currentRoomType]: Message[];
+  };
 }
 
 const initialState: ChatRoomState = {
   currentRoom: 'General',
   rooms: ['General', 'Tech Talk', 'AI Discussions', 'Sports'],
+  messages: {
+    General: [],
+    'Tech Talk': [],
+    'AI Discussions': [],
+    Sports: [],
+  },
 };
 
 export const chatSlice = createSlice({
@@ -18,8 +27,13 @@ export const chatSlice = createSlice({
     setCurrentRoom: (state, action: PayloadAction<currentRoomType>) => {
       state.currentRoom = action.payload;
     },
+    addMessage: (state, action: PayloadAction<MessagePayload>) => {
+      const { roomId, message } = action.payload;
+      if (!roomId) return;
+      state.messages[roomId].push(message);
+    },
   },
 });
 
-export const { setCurrentRoom } = chatSlice.actions;
+export const { setCurrentRoom, addMessage } = chatSlice.actions;
 export default chatSlice.reducer;

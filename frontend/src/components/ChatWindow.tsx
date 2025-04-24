@@ -1,50 +1,25 @@
 import { useAppSelector } from '../app/hooks';
+import { IncomingMessage } from './IncomingMessage';
+import { UserMessage } from './UserMessage';
 
 const ChatWindow = () => {
-  const currentRoom = useAppSelector((state) => state.chat.currentRoom);
-
+  const { currentRoom, messages } = useAppSelector((state) => state.chat);
+  const currentRoomMessages = messages[currentRoom];
+  console.log(currentRoomMessages);
   return (
     <div className="h-[80%]">
       <h2 className="p-4 font-[400] text-4xl border-b border-gray-200">
         {currentRoom}
       </h2>
       <div>
-        <div className="chat chat-start">
-          <div className="chat-header">Obi-Wan Kenobi</div>
-          <div className="chat-bubble bg-gray-100 text-gray-600">
-            Hey there, welcome!
-          </div>
-        </div>
-        <div className="chat chat-end">
-          <div className="chat-header">Obi-Wan Kenobi</div>
-          <div className="chat-bubble bg-blue-50 text-gray-600">
-            Thanks, happy to join!
-          </div>
-        </div>
-        <div className="chat chat-start">
-          <div className="chat-header">Obi-Wan Kenobi</div>
-          <div className="chat-bubble bg-gray-100 text-gray-600">
-            Let me know if you need anything.
-          </div>
-        </div>
-        <div className="chat chat-start">
-          <div className="chat-header">Obi-Wan Kenobi</div>
-          <div className="chat-bubble bg-gray-100 text-gray-600">
-            Hey there, welcome!
-          </div>
-        </div>
-        <div className="chat chat-end">
-          <div className="chat-header">Obi-Wan Kenobi</div>
-          <div className="chat-bubble bg-blue-50 text-gray-600">
-            Thanks, happy to join!
-          </div>
-        </div>
-        <div className="chat chat-start">
-          <div className="chat-header">Obi-Wan Kenobi</div>
-          <div className="chat-bubble bg-gray-100 text-gray-600">
-            Let me know if you need anything.
-          </div>
-        </div>
+        {currentRoomMessages.map((message, index) => {
+          const { from: name, text: text } = message;
+          return name === 'Manu' ? (
+            <UserMessage key={index} text={text} name={name} />
+          ) : (
+            <IncomingMessage key={index} text={text} name={name} />
+          );
+        })}
       </div>
     </div>
   );
