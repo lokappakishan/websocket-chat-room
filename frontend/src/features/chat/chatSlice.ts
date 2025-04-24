@@ -32,8 +32,16 @@ export const chatSlice = createSlice({
       if (!roomId) return;
       state.messages[roomId].push(message);
     },
+    loadChatFromLocalStorage: (
+      state,
+      action: PayloadAction<Pick<ChatRoomState, 'currentRoom' | 'messages'>>
+    ) => {
+      state.currentRoom = action.payload?.currentRoom;
+      state.messages = action.payload?.messages;
+    },
   },
 });
 
-export const { setCurrentRoom, addMessage } = chatSlice.actions;
+export const { setCurrentRoom, addMessage, loadChatFromLocalStorage } =
+  chatSlice.actions;
 export default chatSlice.reducer;
