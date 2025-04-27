@@ -30,7 +30,7 @@ function App() {
         <div className="w-[30%] border-r border-gray-200">
           <ChatSidebar />
         </div>
-        <div className="w-[70%] flex flex-col">
+        <div className="w-[70%] flex flex-col h-full">
           <ChatWindow />
           <ChatInput />
         </div>

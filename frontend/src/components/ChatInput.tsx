@@ -20,7 +20,7 @@ const ChatInput = () => {
   };
 
   return (
-    <div className="h-[20%] flex justify-center items-center gap-5 border-t border-gray-200">
+    <div className="h-24 flex justify-center items-center gap-5 border-t border-gray-200">
       <input
         type="text"
         placeholder="Type a message"
